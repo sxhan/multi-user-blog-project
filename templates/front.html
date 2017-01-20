@@ -1,0 +1,15 @@
+{% import 'blogpost.html' as blogpost %}
+
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="main-title">
+        <h1>Latest Posts</h1>
+    </div>
+    <hr />
+    {% for post in posts %}
+        {{ blogpost.post(post) }}
+    {% endfor %}
+
+{% endblock %}

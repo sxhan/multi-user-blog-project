@@ -1,0 +1,8 @@
+{% macro post(post) -%}
+    <article class="post">
+        <h2 class="post-title">{{post.subject}} - {{post.author}}</h2>
+        <h4 class="post-date">{{post.created}}</h4>
+        <!-- <h3>{{post.key().id()}}</h3> -->
+        <pre class="post-content">{{ post.content }}</pre>
+    </article>
+{%- endmacro %}
