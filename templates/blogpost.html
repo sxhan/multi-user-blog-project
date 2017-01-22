@@ -1,9 +1,19 @@
 {% macro post(post) -%}
     <div class="row">
         <article class="col-sm-12 post">
-            <a href="/blog/{{post.key().id()}}">
-                <h2 class="row post-title">{{post.subject}} - {{post.author}}</h2>
-            </a>
+            <div class="row">
+                <div class="col-sm-9 post-header-bar">
+                    <a class="post-title" href="/blog/{{post.key().id()}}">
+                        <h3>{{post.subject}} - {{post.author}}</h3>
+                    </a>
+                </div>
+                <div class="col-sm-3">
+                    <div class="btn-group pull-right post-header-bar vcenter">
+                        <a href="/blog/{{post.key().id()}}/edit" class="btn">Edit</a>
+                        <a href="/blog/{{post.key().id()}}/delete" class="btn">Delete</a>
+                    </div>
+                </div>
+            </div>
             <!-- <h4 class="post-date">{{post.created}}</h4> -->
             <!-- <h3>{{post.key().id()}}</h3> -->
             <pre class="row post-content">{{ post.content }}</pre>

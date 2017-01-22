@@ -150,7 +150,7 @@ class LogoutHandler(Handler):
 class BlogFrontPage(Handler):
 
     def get(self):
-        posts = models.BlogPost.all()
+        posts = models.BlogPost.all().order('-created')
         self.render("front.html",
                     posts=posts)
 
