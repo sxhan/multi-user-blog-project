@@ -44,3 +44,18 @@ def login_required(f):
         else:
             return self.redirect("/login")
     return wrapper
+
+
+def login_cookie(f):
+    @wraps(f)
+    def wrapper(self, *args, **kwargs):
+        user_id_cookie = self.request.cookies.get("user_id")
+        if user_id_cookie:
+            user_id = check_secure_val(user_id_cookie)
+            if user_id:
+                return f(self, *args, **kwargs)
+            else:
+                return self.redirect("/login")
+        else:
+            return self.redirect("/login")
+    return wrapper

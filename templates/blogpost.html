@@ -1,8 +1,12 @@
 {% macro post(post) -%}
-    <article class="post">
-        <h2 class="post-title">{{post.subject}} - {{post.author}}</h2>
-        <h4 class="post-date">{{post.created}}</h4>
-        <!-- <h3>{{post.key().id()}}</h3> -->
-        <pre class="post-content">{{ post.content }}</pre>
-    </article>
+    <div class="">
+        <article class="post">
+            <a href="/blog/{{post.key().id()}}">
+                <h2 class="row post-title">{{post.subject}} - {{post.author}}</h2>
+            </a>
+            <!-- <h4 class="post-date">{{post.created}}</h4> -->
+            <!-- <h3>{{post.key().id()}}</h3> -->
+            <pre class="row post-content">{{ post.content }}</pre>
+        </article>
+    </div>
 {%- endmacro %}

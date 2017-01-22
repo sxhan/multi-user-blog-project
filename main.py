@@ -36,7 +36,16 @@ class Handler(webapp2.RequestHandler):
         return t.render(params)
 
     def render(self, template, **kwargs):
-        self.write(self.render_str(template, **kwargs))
+        logged_in = False
+        user_id_cookie = self.request.cookies.get("user_id")
+        if user_id_cookie:
+            user_id = auth.check_secure_val(user_id_cookie)
+            # get our username
+            if user_id:
+                logged_in = True
+        self.write(self.render_str(template,
+                                   logged_in=logged_in,
+                                   **kwargs))
 
 
 class MainPage(Handler):

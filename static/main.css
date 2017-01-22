@@ -1,17 +1,7 @@
-body {
-    position: relative;
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 14px;
-
-    width: 800px;
-    margin: 0 auto;
-    padding: 10px;
-    color: #333;
-}
-
 .login-area {
     font-size: 13px;
     color: gray;
+    background-color: inherit;
     position: absolute;
     top: 10px;
     right: 10px;
@@ -19,46 +9,46 @@ body {
 
 .login-link {
     color: gray;
+    background-color: inherit;
     text-decoration: none;
 }
 
 .login-link:visited {
     color: gray;
+    background-color: inherit;
 }
 
 .login-link:hover {
     text-decoration: underline;
 }
 
-h2 {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
 .error {
     color: red;
+    background-color: inherit;
 }
 
-label {
-  display: block;
-  font-size: 20px;
+.label {
+  /*display: block;*/
+  /*font-size: 20px;*/
+  color: black;
+  /*background-color: white;*/
 }
 
-label + label {
+.label + .label {
     margin-top: 20px;
 }
 
-input[type=text], input[type=password] {
+/*input[type=text], input[type=password] {
     width: 500px;
     font-size: 20px;
     padding: 2px;
     font-family: monospace;
-}
+}*/
 
 input[type=submit] {
     margin-top: 10px;
     margin-bottom: 10px;
+    font-size: 18px;
 }
 
 textarea {
@@ -68,13 +58,11 @@ textarea {
   font-family: monospace;
 }
 
-input[type=submit] {
-  font-size: 24px;
-}
 
 .main-title {
     display: block;
     color: #222;
+    background-color: inherit;
     font-size: 40px;
     font-weight: bold;
     text-align: center;
@@ -96,22 +84,28 @@ input[type=submit] {
     font-weight: bold;
     text-decoration: none;
     color: #333;
+    background-color: inherit;
     display: inline-block;
 }
 
-.post-title:visisted {
+.post-title:visited {
     color: #666;
+    background-color: inherit;
 }
 
 .post-date {
-    position: absolute;
-    right: 0px;
+    /*position: absolute;*/
+    /*right: 0px;*/
+    text-align: right;
     color: #999;
+    background-color: inherit;
     display: inline-block;
 }
 
-.post-content {
+.post-content-preview {
     margin-top: 5px;
+    max-height: 6em;
+    overflow: hidden;
 }
 
 .age {
@@ -119,5 +113,20 @@ input[type=submit] {
     bottom: 0px;
     right: 0px;
     color: gray;
+    background-color: inherit;
     font-size: 12px;
 }
+
+.voting {
+    margin: 1em 0 1em 0;
+    width: 100%;
+    text-align: center;
+    color: grey;
+}
+
+
+/*pre {
+    line-height: 1.5em;
+    height: 5em;       /* height is 2x line-height, so two lines will display */
+    overflow: hidden;  /* prevents extra lines from being visible */
+}*/
