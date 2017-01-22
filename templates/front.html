@@ -8,38 +8,39 @@
         <hr />
     </div>
 
-    <div class="main-title">
-
-    </div>
-
     {% for post in posts %}
-        <article>
-            <div class="row">
-                <div class="col-sm-1">
-                </div>
-                <div class="col-sm-11">
-                    <a href="/blog/{{post.key().id()}}">
-                        <h2 class="row post-title">{{post.subject}} - {{post.author}}</h2>
-                    </a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-1 pull-left">
-                    <div class="voting">
-                        <a href="/blog/{{post.key().id()}}/upvote">
-                            ⬆
-                        </a>
-                        <div>•</div>
-                        <a href="/blog/{{post.key().id()}}/downvote">
-                            ⬇
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row">
+                    <div class="col-sm-1">
+                    </div>
+                    <div class="col-sm-11">
+                        <a href="/blog/{{post.key().id()}}">
+                            <h2 class="row post-title">{{post.subject}} - {{post.author}}</h2>
                         </a>
                     </div>
                 </div>
-                <div class="col-sm-11">
-                    <pre class="row post-content-preview">{{ post.content }}</pre>
+                <div class="row-sm-12">
+                    <div class="col-sm-1 pull-left">
+                        <div class="voting">
+                            <a href="/blog/{{post.key().id()}}/upvote">
+                                ⬆
+                            </a>
+                            <div>•</div>
+                            <a href="/blog/{{post.key().id()}}/downvote">
+                                ⬇
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-sm-11">
+                        <pre class="row post-content-preview">{{ post.content }}</pre>
+                    </div>
                 </div>
-            </div>
-        </article>
+            </article>
+        </div>
+    </div>
+
 
     {% endfor %}
 
