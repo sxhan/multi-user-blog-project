@@ -18,8 +18,17 @@ class User(db.Model):
 
     @classmethod
     def get_user_by_cookie(cls, cookie):
+        """Returns User object given a user_id cookie string. Returns None if
+        something fails in the process
+        """
         if cookie:
             user_id = auth.check_secure_val(cookie)
             if user_id:
                 return User.get_by_id(int(user_id))
         return None
+
+    def is_owner(self, post):
+        if self.username == post.author:
+            return True
+        else:
+            return False

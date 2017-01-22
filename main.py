@@ -47,6 +47,10 @@ class Handler(webapp2.RequestHandler):
                                    logged_in=logged_in,
                                    **kwargs))
 
+    def throw_exception(self, code, msg):
+        self.response.out.write(str(msg))
+        self.response.set_status(int(403))
+
 
 class MainPage(Handler):
 
@@ -197,11 +201,31 @@ class EditBlogPostHandler(Handler):
 
     @auth.login_required
     def get(self, post_id):
+        # Check whether the correct user is accessing this page
         post = models.BlogPost.get_by_id(int(post_id))
-        self.render("editpost.html", post=post)
+        user = models.User.get_user_by_cookie(
+            self.request.cookies.get("user_id"))
+
+        if post and user and user.is_owner(post):
+            self.render("editpost.html", post=post)
+        else:
+            self.throw_exception(403,
+                                 "you are not authorized to perform this "
+                                 "action!")
 
     @auth.login_required
     def post(self, post_id):
+        # Check whether the correct user is accessing this page
+        post = models.BlogPost.get_by_id(int(post_id))
+        user = models.User.get_user_by_cookie(
+            self.request.cookies.get("user_id"))
+        if not (post and user and user.is_owner(post)):
+            self.throw_exception(403,
+                                 "you are not authorized to perform this "
+                                 "action!")
+            return
+
+        # Update object
         subject = self.request.get("subject")
         content = self.request.get("content")
 

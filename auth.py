@@ -1,8 +1,10 @@
 import hmac
+import logging
 from functools import wraps
 
 from lib.bcrypt import bcrypt
 
+import models
 
 SECRET = "THISISSOSECRET"
 
