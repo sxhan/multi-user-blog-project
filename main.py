@@ -255,6 +255,60 @@ class DeleteBlogPostHandler(Handler):
         self.redirect("/blog")
 
 
+class VoteHandler(Handler):
+
+    def _vote(self, post_id, vote_val):
+        post = models.BlogPost.get_by_id(int(post_id))
+        user = models.User.get_user_by_cookie(
+            self.request.cookies.get("user_id"))
+        if post and user and user.is_owner(post):
+            self.throw_exception(403,
+                                 "You cannot vote on your own posts!")
+        else:
+            user_id = user.key().id()
+            post_id = post.key().id()
+            # Search for existing likes
+            existing = models.Vote.all().filter("user_id =", user_id) \
+                .filter("blog_post_id =", post_id)
+
+            # Create new vote
+            if existing.count() == 0:
+                vote = models.Vote(blog_post_id=post_id,
+                                   user_id=user_id,
+                                   score=int(vote_val))
+
+            # If new vote is same as old vote, undo old vote (set to 0).
+            # If new vote is different form old vote, update old vote.
+            else:
+                vote = existing.get()
+                if vote.score == int(vote_val):
+                    vote.score == 0
+                else:
+                    vote.score = int(vote_val)
+
+            vote.put()
+
+            # Redirect to referring page
+            referrer = self.request.headers.get('referer')
+            if referrer:
+                return self.redirect(referrer)
+            return self.redirect_to('/blog')
+
+
+class UpvoteHandler(VoteHandler):
+
+    @auth.login_required
+    def post(self, post_id):
+        self._vote(post_id, 1)
+
+
+class DownvoteHandler(VoteHandler):
+
+    @auth.login_required
+    def post(self, post_id):
+        self._vote(post_id, -1)
+
+
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/welcome', WelcomeHandler),
@@ -265,5 +319,7 @@ app = webapp2.WSGIApplication([
     ('/blog/([0-9]+)', BlogPostHandler),
     ('/blog/([0-9]+)/edit', EditBlogPostHandler),
     ('/blog/([0-9]+)/delete', DeleteBlogPostHandler),
+    ('/blog/([0-9]+)/up', UpvoteHandler),
+    ('/blog/([0-9]+)/down', DownvoteHandler),
     ('/blog/newpost', NewPostHandler)],
     debug=True)

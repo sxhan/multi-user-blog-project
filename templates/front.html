@@ -24,13 +24,13 @@
                 <div class="row-sm-12">
                     <div class="col-sm-1 pull-left">
                         <div class="voting">
-                            <a href="/blog/{{post.key().id()}}/upvote">
-                                ⬆
-                            </a>
+                            <form action="/blog/{{post.key().id()}}/up" method="post">
+                                <button type="submit" name="upvote" class="upvote">⬆</button>
+                            </form>
                             <div>•</div>
-                            <a href="/blog/{{post.key().id()}}/downvote">
-                                ⬇
-                            </a>
+                            <form action="/blog/{{post.key().id()}}/down" method="post">
+                                <button type="submit" name="downvote" class="downvote">⬇</button>
+                            </form>
                         </div>
                     </div>
                     <div class="col-sm-11">

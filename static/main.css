@@ -152,3 +152,8 @@ textarea {
     border-width: 2pt;
     background-color: whitesmoke;
 }
+
+.upvote, .downvote {
+    border: none;
+    background-color: transparent;
+}

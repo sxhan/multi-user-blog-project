@@ -13,7 +13,7 @@ class BlogPost(db.Model):
 class User(db.Model):
     username = db.StringProperty(required=True)
     password = db.StringProperty(required=True)
-    email = db.EmailProperty(required=False)
+    email = db.StringProperty(required=False)
     created = db.DateTimeProperty(auto_now_add=True)
 
     @classmethod
@@ -32,3 +32,10 @@ class User(db.Model):
             return True
         else:
             return False
+
+
+class Vote(db.Model):
+    blog_post_id = db.IntegerProperty(required=True)
+    user_id = db.IntegerProperty(required=True)
+    score = db.IntegerProperty(required=True)
+    created = db.DateTimeProperty(auto_now_add=True)

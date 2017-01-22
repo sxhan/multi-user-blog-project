@@ -1,6 +1,17 @@
 {% macro post(post) -%}
     <div class="row">
-        <article class="col-sm-12 post">
+        <div class="col-sm-1 pull-left">
+            <div class="voting">
+                <form action="/blog/{{post.key().id()}}/up" method="post">
+                    <button type="submit" name="upvote" class="upvote">⬆</button>
+                </form>
+                <div>•</div>
+                <form action="/blog/{{post.key().id()}}/down" method="post">
+                    <button type="submit" name="downvote" class="downvote">⬇</button>
+                </form>
+            </div>
+        </div>
+        <article class="col-sm-11 post">
             <div class="row">
                 <div class="col-sm-9 post-header-bar">
                     <a class="post-title" href="/blog/{{post.key().id()}}">
