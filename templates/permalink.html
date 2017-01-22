@@ -7,4 +7,13 @@
         <h2>Post</h2>
     </div>
     {{ blogpost.post(post) }}
+    <div class="row">
+        <hr />
+    </div>
+    <div class="row comments">
+
+        {% for comment in comments %}
+            some comments
+        {% endfor %}
+    </div>
 {% endblock %}
