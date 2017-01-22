@@ -193,12 +193,53 @@ class BlogPostHandler(Handler):
         self.render("permalink.html", post=post)
 
 
-app = webapp2.WSGIApplication([('/', MainPage),
-                               ('/welcome', WelcomeHandler),
-                               ('/signup', SignupHandler),
-                               ('/login', LoginHandler),
-                               ('/logout', LogoutHandler),
-                               ('/blog/?', BlogFrontPage),
-                               ('/blog/([0-9]+)', BlogPostHandler),
-                               ('/blog/newpost', NewPostHandler)],
-                              debug=True)
+class EditBlogPostHandler(Handler):
+
+    @auth.login_required
+    def get(self, post_id):
+        post = models.BlogPost.get_by_id(int(post_id))
+        self.render("editpost.html", post=post)
+
+    @auth.login_required
+    def post(self, post_id):
+        subject = self.request.get("subject")
+        content = self.request.get("content")
+
+        # # since theres a login_required decorator, the user must exist
+        # user = models.User.get_user_by_cookie(
+        #     self.request.cookies.get("user_id"))
+
+        if subject and content:
+            post = models.BlogPost.get_by_id(int(post_id))
+            post.subject = subject
+            post.content = content
+            post.put()
+            self.redirect("/blog/" + str(post.key().id()))
+            # self.render_front()
+        else:
+            error = "we need subject and content!"
+            self.render("newpost.html",
+                        subject=subject, content=content, error=error)
+
+
+class DeleteBlogPostHandler(Handler):
+
+    @auth.login_required
+    def post(self, post_id):
+        post = models.BlogPost.get_by_id(int(post_id))
+        post.delete()
+        self.redirect("/blog")
+
+
+app = webapp2.WSGIApplication([
+    ('/', MainPage),
+    ('/welcome', WelcomeHandler),
+    ('/signup', SignupHandler),
+    ('/login', LoginHandler),
+    ('/logout', LogoutHandler),
+    ('/blog/?', BlogFrontPage),
+    ('/blog/([0-9]+)', BlogPostHandler),
+    ('/blog/([0-9]+)/edit', EditBlogPostHandler),
+    ('/blog/([0-9]+)/delete', DeleteBlogPostHandler),
+    ('/blog/newpost', NewPostHandler)],
+    debug=True)

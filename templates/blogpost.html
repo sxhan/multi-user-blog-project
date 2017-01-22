@@ -9,8 +9,12 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="btn-group pull-right post-header-bar vcenter">
-                        <a href="/blog/{{post.key().id()}}/edit" class="btn">Edit</a>
-                        <a href="/blog/{{post.key().id()}}/delete" class="btn">Delete</a>
+                        <form action="/blog/{{post.key().id()}}/edit" method="get">
+                            <button type="submit" name="edit" class="btn btn-post">Edit</button>
+                        </form>
+                        <form action="/blog/{{post.key().id()}}/delete" method="post">
+                            <button type="submit" name="delete" class="btn btn-post">Delete</button>
+                        </form>
                     </div>
                 </div>
             </div>

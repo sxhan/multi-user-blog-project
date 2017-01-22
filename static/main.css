@@ -144,3 +144,11 @@ textarea {
     display: flex;
     align-items: center;
 }
+
+.btn-post {
+    margin: 0 5px 0 5px;
+    color: inherit;
+    border-color: grey;
+    border-width: 2pt;
+    background-color: whitesmoke;
+}
