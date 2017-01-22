@@ -57,7 +57,7 @@ class Handler(webapp2.RequestHandler):
 class MainPage(Handler):
 
     def get(self):
-        self.write("herro")
+        return self.redirect("/blog")
 
 
 class SignupHandler(Handler):
