@@ -1,0 +1,50 @@
+{% macro comment(post, comment) -%}
+    <div class="row">
+        <hr />
+    </div>
+    <div class="row">
+        <article class="col-sm-12 post">
+            <div class="row">
+                <div class="col-sm-9 post-header-bar vcenter">
+                    Posted by: {{ comment.username }}
+                </div>
+                <div class="col-sm-3">
+                    <div class="btn-group pull-right post-header-bar vcenter">
+                        <form action="/blog/{{post.key().id()}}/{{comment.key().id()}}/edit" method="get">
+                            <button type="submit" name="edit" class="btn btn-comment">Edit</button>
+                        </form>
+                        <form action="/blog/{{post.key().id()}}/{{comment.key().id()}}/delete" method="post">
+                            <button type="submit" name="delete" class="btn btn-comment">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <pre class="row comment-content">{{ comment.content }}</pre>
+        </article>
+    </div>
+{%- endmacro %}
+
+{% macro newcomment(post, comment, user) -%}
+<div class="row">
+    <div class="col-sm-12">
+        New Comment
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <form method="post" action="/blog/{{post.key().id()}}/newcomment">
+            <div class="form-group">
+                <label>
+                  <textarea name="comment_content" class="form-control">{{content}}</textarea>
+                </label>
+            </div>
+            <div class="form-group">
+                <div class="error">{{error}}</div>
+            </div>
+            <input type="hidden" name="username" value="{{user.username}}"/>
+            <input type="hidden" name="blog_post_id" value="{{post.key().id()}}"/>
+            <button type="submit" class="btn btn-post">Submit</button>
+        </form>
+    </div>
+</div>
+{%- endmacro %}

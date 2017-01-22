@@ -38,6 +38,7 @@ class Handler(webapp2.RequestHandler):
     def render(self, template, **kwargs):
         logged_in = False
         user_id_cookie = self.request.cookies.get("user_id")
+        user = models.User.get_user_by_cookie(user_id_cookie)
         if user_id_cookie:
             user_id = auth.check_secure_val(user_id_cookie)
             # get our username
@@ -45,6 +46,7 @@ class Handler(webapp2.RequestHandler):
                 logged_in = True
         self.write(self.render_str(template,
                                    logged_in=logged_in,
+                                   user=user,
                                    **kwargs))
 
     def throw_exception(self, code, msg):
@@ -194,7 +196,12 @@ class BlogPostHandler(Handler):
 
     def get(self, post_id):
         post = models.BlogPost.get_by_id(int(post_id))
-        self.render("permalink.html", post=post)
+        post_id = post.key().id()
+        comments = models.BlogComment.all().filter("blog_post_id =", post_id) \
+                         .order('-created').run()
+        self.render("permalink.html",
+                    post=post,
+                    comments=comments)
 
 
 class EditBlogPostHandler(Handler):
@@ -309,6 +316,33 @@ class DownvoteHandler(VoteHandler):
         self._vote(post_id, -1)
 
 
+class NewCommentHandler(Handler):
+
+    @auth.login_required
+    def post(self, post_id):
+        content = self.request.get("comment_content")
+        username = self.request.get("username")
+        post_id = int(self.request.get("blog_post_id"))
+
+        # Validate user, blog and content:
+        user = models.User.get_by_username(username)
+        post = models.BlogPost.get_by_id(post_id)
+        logging.info("user: %s" % user)
+        logging.info("post: %s" % post)
+        logging.info("content: %s" % content)
+
+        if user and post and content:
+            comment = models.BlogComment(blog_post_id=post_id,
+                                         username=username,
+                                         content=content)
+            comment.put()
+            # Redirect to referring page
+        referrer = self.request.headers.get('referer')
+        if referrer:
+            return self.redirect(referrer)
+        return self.redirect_to('/blog')
+
+
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/welcome', WelcomeHandler),
@@ -321,5 +355,8 @@ app = webapp2.WSGIApplication([
     ('/blog/([0-9]+)/delete', DeleteBlogPostHandler),
     ('/blog/([0-9]+)/up', UpvoteHandler),
     ('/blog/([0-9]+)/down', DownvoteHandler),
+    ('/blog/([0-9]+)/newcomment', NewCommentHandler),
+    ('/blog/{{post.key().id()}}/{{comment.key().id()}}/edit', EditBlogPostHandler),
+    ('/blog/{{post.key().id()}}/{{comment.key().id()}}/delete', DeleteBlogPostHandler),
     ('/blog/newpost', NewPostHandler)],
     debug=True)

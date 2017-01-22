@@ -33,9 +33,24 @@ class User(db.Model):
         else:
             return False
 
+    @classmethod
+    def get_by_username(cls, username):
+        q = cls.all().filter("username =", username)
+        if q.count() == 1:
+            return q.get()
+        else:
+            return None
+
 
 class Vote(db.Model):
     blog_post_id = db.IntegerProperty(required=True)
     user_id = db.IntegerProperty(required=True)
     score = db.IntegerProperty(required=True)
+    created = db.DateTimeProperty(auto_now_add=True)
+
+
+class BlogComment(db.Model):
+    blog_post_id = db.IntegerProperty(required=True)
+    username = db.TextProperty(required=True)
+    content = db.TextProperty(required=True)
     created = db.DateTimeProperty(auto_now_add=True)

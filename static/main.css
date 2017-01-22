@@ -153,7 +153,19 @@ textarea {
     background-color: whitesmoke;
 }
 
+.btn-comment {
+    margin: 0 2px 0 2px;
+    color: inherit;
+    font-size: 8pt;
+    border-width: 1pt;
+    background-color: whitesmoke;
+}
+
 .upvote, .downvote {
     border: none;
     background-color: transparent;
+}
+
+.comment-content {
+    background-color: lavenderblush;
 }

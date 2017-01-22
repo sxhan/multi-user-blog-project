@@ -1,4 +1,5 @@
 {% import 'blogpost.html' as blogpost %}
+{% import 'blogcomment.html' as blogcomment %}
 
 {% extends "base.html" %}
 
@@ -12,9 +13,14 @@
 <div class="row">
     <hr />
 </div>
+{% if user %}
+    <div class="row">
+        {{ blogcomment.newcomment(post, comment, user)}}
+    </div>
+{% endif %}
 <div class="row comments">
     {% for comment in comments %}
-        some comments
+        {{ blogcomment.comment(post, comment) }}
     {% endfor %}
 </div>
 {% endblock %}
