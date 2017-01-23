@@ -51,6 +51,6 @@ class Vote(db.Model):
 
 class BlogComment(db.Model):
     blog_post_id = db.IntegerProperty(required=True)
-    username = db.TextProperty(required=True)
+    author = db.TextProperty(required=True)
     content = db.TextProperty(required=True)
     created = db.DateTimeProperty(auto_now_add=True)

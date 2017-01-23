@@ -36,11 +36,22 @@ def make_pw_hash(username, password, salt=None):
 def login_required(f):
     @wraps(f)
     def wrapper(self, *args, **kwargs):
+        logging.info("Inside login_required")
         user_id_cookie = self.request.cookies.get("user_id")
+        logging.info("The cookie is: %s" % user_id_cookie)
         if user_id_cookie:
             user_id = check_secure_val(user_id_cookie)
-            if user_id:
+            user = models.User.get_by_id(int(user_id))
+            if user_id and user:
+                logging.info("Login okay!")
                 return f(self, *args, **kwargs)
+            elif user_id and not user:
+                # This will be an edge case where client sends up a
+                # syntatically correct cookie, but the user doesn't
+                # actually exist. Clear the cookie.
+                self.response.headers.add_header(
+                    "Set-Cookie", "user_id=; Path=/")
+                return self.redirect("/login")
             else:
                 return self.redirect("/login")
         else:

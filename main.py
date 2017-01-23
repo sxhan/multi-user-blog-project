@@ -44,9 +44,11 @@ class Handler(webapp2.RequestHandler):
             # get our username
             if user_id:
                 logged_in = True
+        # This makes it safe for child handlers to pass in duplicate
+        # values
+        kwargs.update({"logged_in": logged_in,
+                       "user": user})
         self.write(self.render_str(template,
-                                   logged_in=logged_in,
-                                   user=user,
                                    **kwargs))
 
     def throw_exception(self, code, msg):
@@ -321,11 +323,12 @@ class NewCommentHandler(Handler):
     @auth.login_required
     def post(self, post_id):
         content = self.request.get("comment_content")
-        username = self.request.get("username")
+        author = self.request.get("author")
         post_id = int(self.request.get("blog_post_id"))
 
         # Validate user, blog and content:
-        user = models.User.get_by_username(username)
+        user = models.User.get_by_username(author)
+        logging.info("Value of author is %s" % author)
         post = models.BlogPost.get_by_id(post_id)
         logging.info("user: %s" % user)
         logging.info("post: %s" % post)
@@ -333,7 +336,7 @@ class NewCommentHandler(Handler):
 
         if user and post and content:
             comment = models.BlogComment(blog_post_id=post_id,
-                                         username=username,
+                                         author=author,
                                          content=content)
             comment.put()
             # Redirect to referring page
@@ -341,6 +344,84 @@ class NewCommentHandler(Handler):
         if referrer:
             return self.redirect(referrer)
         return self.redirect_to('/blog')
+
+
+# TODO this actually looks very similar to the new comment page... maybe they
+# can be combined.
+class EditCommentHandler(Handler):
+
+    @auth.login_required
+    def get(self, post_id, comment_id):
+        # Check whether the correct user is accessing this page
+        comment = models.BlogComment.get_by_id(int(comment_id))
+        post = models.BlogPost.get_by_id(int(post_id))
+        user = models.User.get_user_by_cookie(
+            self.request.cookies.get("user_id"))
+
+        logging.info("content of comment is: %s" % comment.content)
+
+        if post and comment and user and user.is_owner(comment):
+            self.render("editcomment.html",
+                        post=post,
+                        comment=comment,
+                        user=user,
+                        content=comment.content)
+        else:
+            self.throw_exception(403,
+                                 "you are not authorized to perform this "
+                                 "action!")
+
+    @auth.login_required
+    def post(self, post_id, comment_id):
+        comment = models.BlogComment.get_by_id(int(comment_id))
+        post = models.BlogPost.get_by_id(int(post_id))
+        user = models.User.get_user_by_cookie(
+            self.request.cookies.get("user_id"))
+
+        if not (comment and user and user.is_owner(comment)):
+            return self.throw_exception(403,
+                                        "you are not authorized to perform "
+                                        "this action!")
+
+        # Update object
+        content = self.request.get("comment_content")
+
+        # # since theres a login_required decorator, the user must exist
+        # user = models.User.get_user_by_cookie(
+        #     self.request.cookies.get("user_id"))
+
+        # Success
+        if content:
+            comment.content = content
+            comment.put()
+            self.redirect("/blog/" + str(post.key().id()))
+            # self.render_front()
+        # Failure
+        else:
+            self.render("editcomment.html",
+                        post=post,
+                        comment=comment,
+                        user=user,
+                        content=comment.content,
+                        error="Invalid edit!")
+
+
+class DeleteCommentHandler(Handler):
+
+    @auth.login_required
+    def post(self, post_id, comment_id):
+        comment = models.BlogComment.get_by_id(int(comment_id))
+        post = models.BlogPost.get_by_id(int(post_id))
+        user = models.User.get_user_by_cookie(
+            self.request.cookies.get("user_id"))
+
+        if not (post and comment and user and user.is_owner(comment)):
+            return self.throw_exception(403,
+                                        "you are not authorized to perform "
+                                        "this action!")
+        else:
+            comment.delete()
+            return self.redirect("/blog/%s" % str(post.key().id()))
 
 
 app = webapp2.WSGIApplication([
@@ -356,7 +437,7 @@ app = webapp2.WSGIApplication([
     ('/blog/([0-9]+)/up', UpvoteHandler),
     ('/blog/([0-9]+)/down', DownvoteHandler),
     ('/blog/([0-9]+)/newcomment', NewCommentHandler),
-    ('/blog/{{post.key().id()}}/{{comment.key().id()}}/edit', EditBlogPostHandler),
-    ('/blog/{{post.key().id()}}/{{comment.key().id()}}/delete', DeleteBlogPostHandler),
+    ('/blog/([0-9]+)/([0-9]+)/edit', EditCommentHandler),
+    ('/blog/([0-9]+)/([0-9]+)/delete', DeleteCommentHandler),
     ('/blog/newpost', NewPostHandler)],
     debug=True)

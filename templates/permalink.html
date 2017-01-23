@@ -15,7 +15,7 @@
 </div>
 {% if user %}
     <div class="row">
-        {{ blogcomment.newcomment(post, comment, user)}}
+        {{ blogcomment.newcomment(post, comment, user, content, error)}}
     </div>
 {% endif %}
 <div class="row comments">
