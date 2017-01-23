@@ -127,7 +127,7 @@ class LoginHandler(Handler):
         is_valid, errors = validate.validate_login(username=username,
                                                    password=password)
         if is_valid:
-            logging.info("username: %s" % username)
+            # logging.info("username: %s" % username)
             user = models.User.all().filter("username =", username).get()
             user_id = user.key().id()
             logging.info("user id: %s" % user_id)
@@ -291,11 +291,10 @@ class VoteHandler(Handler):
             # If new vote is different form old vote, update old vote.
             else:
                 vote = existing.get()
-                if vote.score == int(vote_val):
-                    vote.score == 0
+                if int(vote.score) == int(vote_val):
+                    vote.score = 0
                 else:
                     vote.score = int(vote_val)
-
             vote.put()
 
             # Redirect to referring page
@@ -329,11 +328,11 @@ class NewCommentHandler(Handler):
 
         # Validate user, blog and content:
         user = models.User.get_by_username(author)
-        logging.info("Value of author is %s" % author)
+        # logging.info("Value of author is %s" % author)
         post = models.BlogPost.get_by_id(post_id)
-        logging.info("user: %s" % user)
-        logging.info("post: %s" % post)
-        logging.info("content: %s" % content)
+        # logging.info("user: %s" % user)
+        # logging.info("post: %s" % post)
+        # logging.info("content: %s" % content)
 
         if user and post and content:
             comment = models.BlogComment(blog_post_id=post_id,
