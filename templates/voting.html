@@ -1,7 +1,7 @@
 {% macro voting(post, user) -%}
 <div class="voting">
     <form action="/blog/{{post.key().id()}}/up" method="post">
-        {% if post.get_user_score(user.key().id()) == 1 %}
+        {% if user and post.get_user_score(user.key().id()) == 1 %}
             <button type="submit" name="upvote" class="upvote orange">⬆</button>
         {% else %}
             <button type="submit" name="upvote" class="upvote">⬆</button>
@@ -9,7 +9,7 @@
     </form>
     <div>•</div>
     <form action="/blog/{{post.key().id()}}/down" method="post">
-        {% if post.get_user_score(user.key().id()) == -1 %}
+        {% if user and post.get_user_score(user.key().id()) == -1 %}
             <button type="submit" name="downvote" class="downvote blue">⬇</button>
         {% else %}
             <button type="submit" name="downvote" class="downvote">⬇</button>
