@@ -271,9 +271,13 @@ class VoteHandler(Handler):
         post = models.BlogPost.get_by_id(int(post_id))
         user = models.User.get_user_by_cookie(
             self.request.cookies.get("user_id"))
-        if post and user and user.is_owner(post):
-            self.throw_exception(403,
-                                 "You cannot vote on your own posts!")
+
+        if not post or not user:
+            return self.throw_exception(500,
+                                        "You're doing something illegal")
+        if user.is_owner(post):
+            return self.throw_exception(403,
+                                        "You cannot vote on your own posts!")
         else:
             user_id = user.key().id()
             post_id = post.key().id()

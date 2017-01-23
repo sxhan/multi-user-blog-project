@@ -23,6 +23,9 @@
             <input type="hidden" name="blog_post_id" value="{{post.key().id()}}"/>
             <button type="submit" class="btn btn-post">Submit</button>
         </form>
+        <form method="get" action="/blog/{{post.key().id()}}">
+            <button type="link" class="btn btn-link">Cancel</button>
+        </form>
     </div>
 </div>
 {% endblock %}
