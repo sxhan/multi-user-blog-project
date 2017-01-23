@@ -1,4 +1,5 @@
 {% import 'blogpost.html' as blogpost %}
+{% import 'voting.html' as voting %}
 
 {% extends "base.html" %}
 
@@ -23,15 +24,7 @@
                 </div>
                 <div class="row-sm-12">
                     <div class="col-sm-1 pull-left">
-                        <div class="voting">
-                            <form action="/blog/{{post.key().id()}}/up" method="post">
-                                <button type="submit" name="upvote" class="upvote">⬆</button>
-                            </form>
-                            <div>•</div>
-                            <form action="/blog/{{post.key().id()}}/down" method="post">
-                                <button type="submit" name="downvote" class="downvote">⬇</button>
-                            </form>
-                        </div>
+                        {{voting.voting(post, user)}}
                     </div>
                     <div class="col-sm-11">
                         <pre class="row post-content-preview">{{ post.content }}</pre>

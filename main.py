@@ -201,6 +201,7 @@ class BlogPostHandler(Handler):
         post_id = post.key().id()
         comments = models.BlogComment.all().filter("blog_post_id =", post_id) \
                          .order('-created').run()
+
         self.render("permalink.html",
                     post=post,
                     comments=comments)

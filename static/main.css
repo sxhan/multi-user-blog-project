@@ -166,6 +166,16 @@ textarea {
     background-color: transparent;
 }
 
+.orange {
+    color: orange;
+    background-color: inherit;
+}
+
+.blue {
+    color: steelblue;
+    background-color: inherit;
+}
+
 .comment-content {
     background-color: lavenderblush;
 }

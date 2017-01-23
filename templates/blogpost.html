@@ -1,15 +1,9 @@
-{% macro post(post) -%}
+{% import 'voting.html' as voting %}
+
+{% macro post(post, user) -%}
     <div class="row">
         <div class="col-sm-1 pull-left">
-            <div class="voting">
-                <form action="/blog/{{post.key().id()}}/up" method="post">
-                    <button type="submit" name="upvote" class="upvote">⬆</button>
-                </form>
-                <div>•</div>
-                <form action="/blog/{{post.key().id()}}/down" method="post">
-                    <button type="submit" name="downvote" class="downvote">⬇</button>
-                </form>
-            </div>
+            {{voting.voting(post, user)}}
         </div>
         <article class="col-sm-11 post">
             <div class="row">

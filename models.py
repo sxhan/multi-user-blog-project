@@ -9,6 +9,20 @@ class BlogPost(db.Model):
     author = db.StringProperty(required=True)
     created = db.DateTimeProperty(auto_now_add=True)
 
+    def get_user_score(self, user_id=None):
+        if not user_id:
+            return 0
+        else:
+            vote = Vote.all() \
+                       .filter("user_id =", int(user_id)) \
+                       .filter("blog_post_id =", int(self.key().id()))
+            vote_count = vote.count()
+            if vote_count == 1:
+                vote = vote.get()
+                return vote.score
+            else:
+                return 0
+
 
 class User(db.Model):
     username = db.StringProperty(required=True)
