@@ -198,13 +198,16 @@ class BlogPostHandler(Handler):
 
     def get(self, post_id):
         post = models.BlogPost.get_by_id(int(post_id))
-        post_id = post.key().id()
-        comments = models.BlogComment.all().filter("blog_post_id =", post_id) \
-                         .order('-created').run()
+        if post:
+            post_id = post.key().id()
+            comments = models.BlogComment.all().filter("blog_post_id =", post_id) \
+                             .order('-created').run()
 
-        self.render("permalink.html",
-                    post=post,
-                    comments=comments)
+            self.render("permalink.html",
+                        post=post,
+                        comments=comments)
+        else:
+            return self.throw_exception(404, "Page does not exist")
 
 
 class EditBlogPostHandler(Handler):
@@ -261,8 +264,16 @@ class DeleteBlogPostHandler(Handler):
     @auth.login_required
     def post(self, post_id):
         post = models.BlogPost.get_by_id(int(post_id))
-        post.delete()
-        self.redirect("/blog")
+        user = models.User.get_user_by_cookie(
+            self.request.cookies.get("user_id"))
+
+        if not (post and user and user.is_owner(post)):
+            return self.throw_exception(403,
+                                        "you are not authorized to perform "
+                                        "this action!")
+        else:
+            post.delete()
+            return self.redirect("/blog")
 
 
 class VoteHandler(Handler):
