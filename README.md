@@ -1,5 +1,5 @@
 # TFYT - Created for Udaciy Full Stack Web Developer Nanodegree Project 3: Multi-User Blog
-A Boostrap 3, jinja2 and webapp2 based Mult-User blog and Reddit clone created in fulfillment of Project 3 Requirements of Udacity's Full Stack Nano Degree Program.
+A Boostrap 3, jinja2 and webapp2 based Multi-User blog and Reddit clone created in fulfillment of Project 3 Requirements of Udacity's Full Stack Nano Degree Program.
 
 A live demo is hosted on google cloud [here](https://hello-world-155208.appspot.com/)
 
