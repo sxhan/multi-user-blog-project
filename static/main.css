@@ -93,6 +93,11 @@ input[type=submit] {
     color: #333;
     background-color: inherit;
     display: inline-block;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    width:100%;
+    display:block;
 }
 
 .post-title:visited {
