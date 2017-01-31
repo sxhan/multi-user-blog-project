@@ -10,29 +10,25 @@
     </div>
 
     {% for post in posts %}
-    <div class="row">
-        <div class="col">
-            <article>
-                <div class="row">
-                    <div class="col-sm-1">
-                    </div>
-                    <div class="col-sm-11">
-                        <a href="/blog/{{post.key().id()}}">
-                            <h2 class="row post-title">{{post.subject}} - {{post.author}}</h2>
-                        </a>
-                    </div>
-                </div>
-                <div class="row-sm-12">
-                    <div class="col-sm-1 pull-left">
-                        {{voting.voting(post, user)}}
-                    </div>
-                    <div class="col-sm-11">
-                        <pre class="row post-content-preview">{{ post.content }}</pre>
-                    </div>
-                </div>
-            </article>
+    <article>
+        <div class="row">
+            <div class="col-xs-1">
+            </div>
+            <div class="col-xs-11">
+                <a href="/blog/{{post.key().id()}}">
+                    <h2 class="row post-title">{{post.subject}} - {{post.author}}</h2>
+                </a>
+            </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="col-xs-1">
+                {{voting.voting(post, user)}}
+            </div>
+            <div class="col-xs-11">
+                <pre class="row post-content-preview">{{ post.content }}</pre>
+            </div>
+        </div>
+    </article>
 
 
     {% endfor %}

@@ -2,6 +2,15 @@ a {
     color: black;
     background-color: inherit;
 }
+
+textarea {
+  width: 500px;
+  height: 400px;
+  font-size: 17px;
+  font-family: inherit;
+}
+
+
 .login-area {
     font-size: 13px;
     color: gray;
@@ -54,13 +63,6 @@ input[type=submit] {
     margin-top: 10px;
     margin-bottom: 10px;
     font-size: 18px;
-}
-
-textarea {
-  width: 500px;
-  height: 400px;
-  font-size: 17px;
-  font-family: monospace;
 }
 
 
@@ -126,6 +128,8 @@ textarea {
     margin: 1em 0 1em 0;
     width: 100%;
     text-align: center;
+    align-items: center;
+    align-content: center;
     color: grey;
     background-color: inherit;
 }
@@ -136,8 +140,13 @@ textarea {
     background-color: inherit;
 }
 
+
 .post-header-bar {
     height: 5em;
+}
+
+.right {
+    float: right;
 }
 
 .vcenter {
@@ -145,15 +154,7 @@ textarea {
     align-items: center;
 }
 
-.btn-post {
-    margin: 0 5px 0 5px;
-    color: inherit;
-    border-color: grey;
-    border-width: 2pt;
-    background-color: whitesmoke;
-}
-
-.btn-comment {
+.btn-edit{
     margin: 0 2px 0 2px;
     color: inherit;
     font-size: 8pt;
@@ -164,6 +165,7 @@ textarea {
 .upvote, .downvote {
     border: none;
     background-color: transparent;
+    padding: 0 0 0 0;
 }
 
 .orange {

@@ -2,23 +2,23 @@
 
 {% macro post(post, user) -%}
     <div class="row">
-        <div class="col-sm-1 pull-left">
+        <div class="col-xs-1">
             {{voting.voting(post, user)}}
         </div>
-        <article class="col-sm-11 post">
+        <article class="col-xs-11 post">
             <div class="row">
-                <div class="col-sm-9 post-header-bar">
+                <div class="col-xs-8 post-header-bar">
                     <a class="post-title" href="/blog/{{post.key().id()}}">
                         <h3>{{post.subject}} - {{post.author}}</h3>
                     </a>
                 </div>
-                <div class="col-sm-3">
-                    <div class="btn-group pull-right post-header-bar vcenter">
+                <div class="col-xs-4">
+                    <div class="btn-group post-header-bar vcenter right">
                         <form action="/blog/{{post.key().id()}}/edit" method="get">
-                            <button type="submit" name="edit" class="btn btn-post">Edit</button>
+                            <button type="submit" name="edit" class="btn btn-edit">Edit</button>
                         </form>
                         <form action="/blog/{{post.key().id()}}/delete" method="post">
-                            <button type="submit" name="delete" class="btn btn-post">Delete</button>
+                            <button type="submit" name="delete" class="btn btn-edit">Delete</button>
                         </form>
                     </div>
                 </div>
