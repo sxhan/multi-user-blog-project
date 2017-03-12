@@ -21,8 +21,8 @@ Follow the instructions found in [this pdf](http://blog2.thoughtforyourthoughts.
 The following instructions assume that you have adde the SDK's python commands to your PATH, so commands like `gcloud` and `dev_appserver.py` are available. See the [Google Cloud SDK setup instructions](http://blog2.thoughtforyourthoughts.com/udacity-fsnd-project-3/docs/InstallingAppEnginewithGCloudonMacOSandLinux.pdf) for more details.
 
 ### Running a local server
-1. Checkout the project: `git clone git@github.com:sxhan/udacity-fsnd-project-3.git`
-2. Navigate to project dir: `cd udacity-fsnd-project-3`
+1. Checkout the project: `git clone git@github.com:sxhan/multi-user-blog-project.git`
+2. Navigate to project dir: `cd multi-user-blog-project`
 3. Start a local development server: `dev_appserver.py .` Note the dot at the end.
 4. By default, the site should be available at `localhost:8080` in your browser. Alternatively, check the prompt in terminal. It display something similar to:
  > INFO     2017-01-23 17:05:53,720 admin_server.py:116] Starting admin server at: http://localhost:8000
@@ -31,8 +31,8 @@ The following instructions assume that you have adde the SDK's python commands t
 
 
 ### Deploying to the cloud
-1. Checkout the project: `git clone git@github.com:sxhan/udacity-fsnd-project-3.git`
-2. Navigate to project dir: `cd udacity-fsnd-project-3`
+1. Checkout the project: `git clone git@github.com:sxhan/multi-user-blog-project.git`
+2. Navigate to project dir: `cd multi-user-blog-project`
 3. Follow instructions in the [Google Cloud SDK setup instructions](http://blog2.thoughtforyourthoughts.com/udacity-fsnd-project-3/docs/InstallingAppEnginewithGCloudonMacOSandLinux.pdf) to set up a blank project in the web console, and configure the `gcloud` command use that project.
 4. Run the following to deploy to your pre-configured Google Cloud Project: `gcloud app deploy app.yaml index.yaml`. Answer yes to the prompt.
  > WARNING: if you had another project previously set up as your gcloud app,
