@@ -1,12 +1,15 @@
 import hmac
 import logging
+import json
 from functools import wraps
 
 from lib.bcrypt import bcrypt
 
 import models
 
-SECRET = "THISISSOSECRET"
+# load secret from json
+CREDENTIALS = json.load(open("credentials.json", "rb"))
+SECRET = CREDENTIALS["SECRET"]
 
 
 def hash_str(s):
